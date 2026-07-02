@@ -6,7 +6,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "launch": "node scripts/launch.mjs",
+    "install-shortcut": "node scripts/install-shortcut.mjs"
   },
   "keywords": [
     "jarvis",

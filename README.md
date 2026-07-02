@@ -34,6 +34,34 @@ Then open **http://localhost:3000** in **Chrome** or **Edge** (best Web Speech A
 
 > Tip: for voice input the page must be served over `localhost` or HTTPS — both are satisfied by running it locally as above.
 
+## Desktop shortcut (launch with one click)
+
+Create a desktop shortcut so you can start JARVIS without touching the terminal. From the project folder run:
+
+```bash
+npm run install-shortcut
+```
+
+This detects your operating system and puts a **J.A.R.V.I.S.** shortcut on your Desktop (on Linux it also appears in your application menu). Double-click it to boot the server and open the interface automatically.
+
+Prefer to run the installer directly?
+
+| OS          | Command                                                                 |
+| ----------- | ----------------------------------------------------------------------- |
+| Windows     | Double-click `scripts\install-shortcut.bat`                             |
+| macOS/Linux | `bash scripts/install-shortcut.sh`                                      |
+
+The shortcut runs the launcher (`launch.bat` on Windows, `launch.sh` on macOS/Linux), which installs dependencies on first run, starts the server, and opens your browser. You can also start the launcher directly any time with:
+
+```bash
+npm run launch
+```
+
+Notes:
+- **Node.js must be installed** on the machine (the launcher checks and tells you if it's missing).
+- **Linux:** the first double-click may ask you to "Allow Launching" / "Trust" the shortcut — that's normal.
+- **macOS:** the shortcut is a `JARVIS.command` file that opens in Terminal; if macOS blocks it the first time, right-click → Open.
+
 ## Configuration
 
 All configuration lives in `.env` (copy from `.env.example`):
