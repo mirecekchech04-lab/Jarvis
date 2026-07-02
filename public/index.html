@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#04121c" />
+  <title>J.A.R.V.I.S.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Ambient background layers -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+  <div class="bg-scanline" aria-hidden="true"></div>
+
+  <!-- Corner HUD frame -->
+  <div class="frame-corner tl" aria-hidden="true"></div>
+  <div class="frame-corner tr" aria-hidden="true"></div>
+  <div class="frame-corner bl" aria-hidden="true"></div>
+  <div class="frame-corner br" aria-hidden="true"></div>
+
+  <main class="workstation">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">◆</span>
+        <span class="brand-name" id="assistantName">J.A.R.V.I.S.</span>
+        <span class="brand-sub">Just A Rather Very Intelligent System</span>
+      </div>
+      <div class="topbar-meta">
+        <div class="meta-item"><span class="meta-label">CORE</span><span class="meta-val" id="coreStatus">BOOTING</span></div>
+        <div class="meta-item"><span class="meta-label">TIME</span><span class="meta-val" id="clock">--:--:--</span></div>
+        <div class="meta-item"><span class="meta-label">DATE</span><span class="meta-val" id="dateReadout">--</span></div>
+        <button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Settings">⚙</button>
+      </div>
+    </header>
+
+    <div class="stage">
+      <!-- Left telemetry column -->
+      <aside class="panel telemetry left">
+        <h2 class="panel-title">SYSTEM DIAGNOSTICS</h2>
+        <div class="gauge" data-gauge="power"><span>ARC REACTOR</span><div class="bar"><i style="width:98%"></i></div><b>98%</b></div>
+        <div class="gauge" data-gauge="cpu"><span>NEURAL LOAD</span><div class="bar"><i style="width:42%"></i></div><b>42%</b></div>
+        <div class="gauge" data-gauge="mem"><span>MEMORY</span><div class="bar"><i style="width:63%"></i></div><b>63%</b></div>
+        <div class="gauge" data-gauge="net"><span>UPLINK</span><div class="bar"><i style="width:88%"></i></div><b>88%</b></div>
+
+        <div class="readout-block">
+          <div class="readout-line"><span>MIC</span><b id="micState">IDLE</b></div>
+          <div class="readout-line"><span>VOICE</span><b id="voiceState">READY</b></div>
+          <div class="readout-line"><span>MODEL</span><b id="modelState">—</b></div>
+        </div>
+        <pre class="log-stream" id="logStream" aria-hidden="true"></pre>
+      </aside>
+
+      <!-- Center reactor + interaction -->
+      <section class="core">
+        <div class="reactor" id="reactor">
+          <div class="ring ring-outer"></div>
+          <div class="ring ring-mid"></div>
+          <div class="ring ring-inner"></div>
+          <div class="ring ring-ticks"></div>
+          <canvas id="viz" class="viz" width="520" height="520" aria-hidden="true"></canvas>
+          <button id="micBtn" class="mic-core" aria-label="Activate voice input">
+            <span class="mic-icon">
+              <svg viewBox="0 0 24 24" width="46" height="46" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                <path d="M19 10a7 7 0 0 1-14 0"/>
+                <line x1="12" y1="17" x2="12" y2="22"/>
+                <line x1="8" y1="22" x2="16" y2="22"/>
+              </svg>
+            </span>
+            <span class="mic-label" id="micBtnLabel">TAP TO SPEAK</span>
+          </button>
+        </div>
+
+        <div class="transcript-live" id="liveTranscript"></div>
+
+        <form class="input-row" id="inputForm" autocomplete="off">
+          <input id="textInput" class="text-input" type="text" placeholder="Type a command or question for JARVIS…" aria-label="Type your message" />
+          <button type="submit" class="send-btn" title="Send">SEND ▸</button>
+        </form>
+
+        <div class="controls">
+          <label class="switch">
+            <input type="checkbox" id="continuousToggle" />
+            <span class="switch-track"></span>
+            <span class="switch-text">CONTINUOUS LISTEN</span>
+          </label>
+          <label class="switch">
+            <input type="checkbox" id="voiceToggle" checked />
+            <span class="switch-track"></span>
+            <span class="switch-text">SPEAK REPLIES</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Right conversation column -->
+      <aside class="panel conversation right">
+        <h2 class="panel-title">COMMS LOG <button id="clearLog" class="mini-btn" title="Clear">CLEAR</button></h2>
+        <div class="messages" id="messages"></div>
+      </aside>
+    </div>
+
+    <footer class="statusbar">
+      <span id="statusText">Initialising systems…</span>
+      <span class="status-dot" id="statusDot"></span>
+    </footer>
+  </main>
+
+  <!-- Settings modal -->
+  <div class="modal-backdrop" id="settingsModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <h3 id="settingsTitle">CONFIGURATION</h3>
+      <label class="field">
+        <span>Address me as</span>
+        <input type="text" id="userTitleInput" placeholder="sir" />
+      </label>
+      <label class="field">
+        <span>Preferred voice</span>
+        <select id="voiceSelect"></select>
+      </label>
+      <label class="field">
+        <span>Speech rate <b id="rateVal">1.0</b></span>
+        <input type="range" id="rateInput" min="0.6" max="1.4" step="0.05" value="1" />
+      </label>
+      <label class="field">
+        <span>Pitch <b id="pitchVal">0.9</b></span>
+        <input type="range" id="pitchInput" min="0.5" max="1.5" step="0.05" value="0.9" />
+      </label>
+      <div class="modal-note" id="aiNote"></div>
+      <div class="modal-actions">
+        <button id="testVoiceBtn" class="ghost-btn">TEST VOICE</button>
+        <button id="closeSettings" class="ghost-btn primary">DONE</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
