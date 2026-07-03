@@ -16,7 +16,16 @@ Talk to JARVIS out loud, and JARVIS talks back in a refined, Iron-Man-inspired v
 - **Tony Stark HUD** — animated arc reactor, rotating rings, audio-reactive visualiser, system telemetry, scanlines and corner framing.
 - **Personalisable** — set what JARVIS calls you ("sir", your name, …) and pick your preferred voice in Settings.
 
-## Quick start
+## Easiest way on Windows — just double-click
+
+If you're on Windows and don't want to touch the terminal at all:
+
+1. Download/clone this project into a folder.
+2. **Double-click `JARVIS.bat`.**
+
+That's it. On the first run it automatically installs everything it needs, then it opens JARVIS in your browser and starts it up — no `npm` commands required. If Node.js isn't installed yet, the launcher tells you and opens the download page for you. To shut JARVIS down, just close the black JARVIS window.
+
+## Quick start (any platform / terminal)
 
 ```bash
 # 1. Get the code and move INTO the project folder
