@@ -19,20 +19,26 @@ Talk to JARVIS out loud, and JARVIS talks back in a refined, Iron-Man-inspired v
 ## Quick start
 
 ```bash
-# 1. Install dependencies
+# 1. Get the code and move INTO the project folder
+git clone <this-repo-url>
+cd jarvis            # the folder that contains package.json
+
+# 2. Install dependencies
 npm install
 
-# 2. (Optional but recommended) add your AI key for full intelligence
+# 3. (Optional but recommended) add your AI key for full intelligence
 cp .env.example .env
 #   then edit .env and set OPENAI_API_KEY=...
 
-# 3. Launch JARVIS
+# 4. Launch JARVIS
 npm start
 ```
 
 Then open **http://localhost:3000** in **Chrome** or **Edge** (best Web Speech API support), allow microphone access, and start talking.
 
 > Tip: for voice input the page must be served over `localhost` or HTTPS — both are satisfied by running it locally as above.
+
+> **`npm install` says "no such file or directory"?** You're almost certainly running it from the wrong folder. See [Troubleshooting](#troubleshooting).
 
 ## Configuration
 
@@ -75,6 +81,40 @@ Browser (public/)                         Server (Node + Express)
 
 - Node.js ≥ 18.
 - A Chromium-based browser (Chrome/Edge) for voice input. Voice output works in most modern browsers; the assistant also works fully by typing.
+
+## Troubleshooting
+
+### `npm install` → *"no such file or directory"* / `ENOENT: … open '…/package.json'`
+
+This does **not** mean anything is broken in the project — it means `npm` was run somewhere it can't find `package.json`. Fix it with the checks below:
+
+1. **Make sure you're inside the project folder.** `npm install` must be run from the directory that contains `package.json`. Run `ls` (or `dir` on Windows) and confirm you see `package.json`. If you don't, `cd` into the project first:
+
+   ```bash
+   cd path/to/jarvis     # the folder with package.json
+   ls package.json       # should print: package.json
+   npm install
+   ```
+
+   A common mistake right after `git clone` is forgetting to `cd` into the newly created folder.
+
+2. **Confirm Node and npm are installed.** `npm install` needs Node.js ≥ 18. Check with:
+
+   ```bash
+   node -v    # should print v18.x or newer
+   npm -v
+   ```
+
+   If these say "command not found", install Node.js from <https://nodejs.org> (the LTS build) and reopen your terminal.
+
+3. **Still stuck? Do a clean install.** A corrupted or partial install can leave things in a bad state. From the project folder:
+
+   ```bash
+   rm -rf node_modules package-lock.json   # (Windows PowerShell: Remove-Item -Recurse -Force node_modules, package-lock.json)
+   npm install
+   ```
+
+If none of the above helps, run `npm install` again and copy the full error text (especially the line that starts with `npm ERR!`) when asking for help — the path shown after `ENOENT` tells you exactly which folder npm was looking in.
 
 ## Notes on privacy
 
