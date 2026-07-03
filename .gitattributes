@@ -1,0 +1,4 @@
+# Windows launcher must always use CRLF line endings so it runs correctly
+# when double-clicked on Windows.
+*.bat text eol=crlf
+*.cmd text eol=crlf
